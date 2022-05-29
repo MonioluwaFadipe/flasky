@@ -1,4 +1,5 @@
 from ensurepip import bootstrap
+from enum import unique
 from unicodedata import name
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
@@ -41,16 +42,18 @@ class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-"""
-@app.error_handler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+class User(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
 
-@app.error_handler(500)
-def internal_server_error(e):
-    return render_template('500.html'), 500 
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
 
-if __name__ == '__main__':
-    app.run()
-"""
+    def __repr__(self):
+        return '<User %r>' % self.username
