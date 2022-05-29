@@ -7,11 +7,19 @@ from flask_moment import Moment
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+import os
+from flask_sqlalchemy import SQLAlchemy
 
+
+basedir = os.path.abspath(os.path.dirmap(__file__))
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY']= 'You cannot see me'
 bootstrap= Bootstrap(app)
 moment = Moment(app)
+
+db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
