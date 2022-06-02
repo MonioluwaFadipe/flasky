@@ -11,7 +11,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_mail import Mail
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -26,7 +26,7 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 bootstrap= Bootstrap(app)
 moment = Moment(app)
 
-
+mail = Mail(app)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
