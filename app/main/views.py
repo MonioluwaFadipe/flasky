@@ -17,7 +17,7 @@ def index():
             db.session.commit()
             session['known'] = False
             if current_app.config['FLASKY_ADMIN']:
-                send_email(app.config['FLASKY_ADMIN'], 'New User', 
+                send_email(current_app.config['FLASKY_ADMIN'], 'New User', 
                         'mail/new_user', user=user)
             else:
                 session['known'] = True
@@ -30,6 +30,6 @@ def index():
                             current_time=datetime.utcnow())
 
 
-@app.route('/user/<name>')
+@main.route('/user/<name>')
 def user(name):
     return render_template('user.html', name=name)
