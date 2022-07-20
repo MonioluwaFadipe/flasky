@@ -88,6 +88,15 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
+    #define default roles for users
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['FLASKY_ADMIN']:
+                self.role = Role.query.filter_by(name='Administrator').first()
+            if self.role is None:
+                self.role = Role.query.filter_by(defult=True).first()
+
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
